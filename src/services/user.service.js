@@ -28,7 +28,7 @@ const getByUserId = async (id) => {
 };
 
 const getAllUser = async () => {
-  const result = await User.findAll();
+  const result = await User.findAll({ attributes: { exclude: ['password'] } });
 
   return result;
 };

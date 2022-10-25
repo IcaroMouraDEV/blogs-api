@@ -1,22 +1,18 @@
 const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
-const { UserService } = require('../services');
-
-const secret = process.env.JWT_SECRET || 'seusecretdetoken';
 
 module.exports = async (req, res, next) => {
-  const token = req.header('Authorization');
-
-  if (!token) {
-    return res.status(401).json({ error: 'Token not found' });
-  }
-
   try {
-    const decoded = jwt.verify(token, secret);
-    const user = await UserService.getByUserId(decoded.data.userId);
+    const token = req.header('Authorization');
+    
+    if (!token) {
+      return res.status(401).json({ error: 'Token not found' });
+    }
+    
+    const { data } = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = user;
+    req.auth = data;
 
     next();
   } catch (err) {

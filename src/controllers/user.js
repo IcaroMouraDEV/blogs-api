@@ -24,7 +24,7 @@ const insertUser = async (req, res) => {
 
 const getAllUser = async (req, res) => {
   const message = await UserService.getAllUser();
-  console.log(req.user);
+  
   res.status(200).json(message);
 };
 
