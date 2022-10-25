@@ -21,7 +21,21 @@ const getByEmail = async (email) => {
   return result;
 };
 
+const getByUserId = async (id) => {
+  const result = await User.findByPk(id);
+
+  return result;
+};
+
+const getAllUser = async () => {
+  const result = await User.findAll();
+
+  return result;
+};
+
 module.exports = {
   getByEmail,
+  getByUserId,
+  getAllUser,
   insertUser,
 };
