@@ -5,5 +5,6 @@ const auth = require('../middlewares/auth');
 const route = express.Router();
 
 route.post('/', auth, category.insertCategory);
+route.get('/', auth, category.getAllCategory);
 
 module.exports = route;
