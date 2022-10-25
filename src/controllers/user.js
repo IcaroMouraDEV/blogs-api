@@ -22,22 +22,24 @@ const insertUser = async (req, res) => {
   res.status(201).json({ token });
 };
 
-const getAllUser = async (req, res) => {
+const getAllUser = async (_req, res) => {
   const message = await UserService.getAllUser();
-  
+
   res.status(200).json(message);
 };
 
-// const getByUserId = async (req, res) => {
-//   const { id } = req.body;
+const getByUserId = async (req, res) => {
+  const { id } = req.params;
   
-//   const message = await UserService.getByUserId(id);
+  const { type, message } = await UserService.getByUserId(id);
 
-//   res.status(200).json(message);
-// };
+  if (type) return res.status(404).json({ message });
+
+  res.status(200).json(message);
+};
 
 module.exports = {
   insertUser,
   getAllUser,
-  // getByUserId,
+  getByUserId,
 };
