@@ -1,6 +1,6 @@
 const { PostService } = require('../services');
 
-const insertCategory = async (req, res) => {
+const insertPost = async (req, res) => {
   const { userId } = req.auth;
   const blogPost = req.body;
   const { type, message } = await PostService.insertBlogPost({ userId, ...blogPost });
@@ -9,6 +9,13 @@ const insertCategory = async (req, res) => {
   res.status(201).json(message);
 };
 
+const getAllPost = async (_req, res) => {
+  const message = await PostService.getAllPost();
+
+  res.status(200).json(message);
+};
+
 module.exports = {
-  insertCategory,
+  insertPost,
+  getAllPost,
 };
