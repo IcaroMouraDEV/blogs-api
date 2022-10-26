@@ -46,15 +46,26 @@ const insertBlogPost = async (blogPost) => {
 };
 
 const getAllPost = async () => {
-  const result = BlogPost.findAll({
+  const result = await BlogPost.findAll({
     include: { all: true, attributes: { exclude: ['password'] } },
-    attributes: { exclude: ['user_id'] },
 });
 
   return result;
 };
 
+const getPostById = async (id) => {
+  const result = await BlogPost.findOne({
+    where: { id },
+    include: { all: true, attributes: { exclude: ['password'] } },
+});
+
+if (!result) return { type: 'error', message: 'Post does not exist' };
+
+  return { type: null, message: result };
+};
+
 module.exports = {
   insertBlogPost,
   getAllPost,
+  getPostById,
 };
