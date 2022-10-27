@@ -79,10 +79,8 @@ const updatePost = async ({ userId, postId }, blogUpdate) => {
 
   const post = await BlogPost.findOne({ where: { id: postId } });
   
-  console.log(post);
   if (post.userId !== userId) return { type: 'unauthorized', message: 'Unauthorized user' };
 
-  /* const [qtdUpdated] =  */
   await BlogPost.update(
     { title: blogUpdate.title, content: blogUpdate.content },
     { where: { id: postId } },
@@ -95,9 +93,21 @@ const updatePost = async ({ userId, postId }, blogUpdate) => {
   return { type: null, message };
 };
 
+const deletePost = async ({ userId, postId }) => {
+  const post = await BlogPost.findOne({ where: { id: postId } });
+  
+  if (!post) return { type: 'not found', message: 'Post does not exist' };
+  if (post.userId !== userId) return { type: 'unauthorized', message: 'Unauthorized user' };
+
+  await BlogPost.destroy({ where: { id: postId } });
+
+  return { type: null, message: [] };
+};
+
 module.exports = {
   insertBlogPost,
   getAllPost,
   getPostById,
   updatePost,
+  deletePost,
 };

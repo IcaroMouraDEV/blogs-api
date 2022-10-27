@@ -8,5 +8,6 @@ route.post('/', auth, post.insertPost);
 route.get('/', auth, post.getAllPost);
 route.get('/:id', auth, post.getPostById);
 route.put('/:id', auth, post.updatePost);
+route.delete('/:id', auth, post.deletePost);
 
 module.exports = route;
