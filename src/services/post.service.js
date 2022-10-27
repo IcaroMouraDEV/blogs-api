@@ -8,6 +8,14 @@ const validateItem = (blogPost) => {
   return null;
 };
 
+const validateItemToUpdate = (blogPost) => {
+  if (!blogPost || !blogPost.title || !blogPost.content) {
+    return 'error';
+  }
+
+  return null;
+};
+
 const transaction = async (post, ids) => {
   const blogPost = await BlogPost.create(post);
 
@@ -57,15 +65,39 @@ const getPostById = async (id) => {
   const result = await BlogPost.findOne({
     where: { id },
     include: { all: true, attributes: { exclude: ['password'] } },
-});
+  });
 
 if (!result) return { type: 'error', message: 'Post does not exist' };
 
   return { type: null, message: result };
 };
 
+const updatePost = async ({ userId, postId }, blogUpdate) => {
+  const validation = validateItemToUpdate(blogUpdate);
+
+  if (validation) return { type: 'error', message: 'Some required fields are missing' };
+
+  const post = await BlogPost.findOne({ where: { id: postId } });
+  
+  console.log(post);
+  if (post.userId !== userId) return { type: 'unauthorized', message: 'Unauthorized user' };
+
+  /* const [qtdUpdated] =  */
+  await BlogPost.update(
+    { title: blogUpdate.title, content: blogUpdate.content },
+    { where: { id: postId } },
+  );
+
+  const message = await BlogPost.findOne({
+    where: { id: postId }, include: { all: true, attributes: { exclude: ['password'] } },
+  });
+
+  return { type: null, message };
+};
+
 module.exports = {
   insertBlogPost,
   getAllPost,
   getPostById,
+  updatePost,
 };
