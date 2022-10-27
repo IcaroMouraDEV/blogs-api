@@ -15,6 +15,13 @@ const getAllPost = async (_req, res) => {
   res.status(200).json(message);
 };
 
+const getPostByQuery = async (req, res) => {
+  const { q: query } = req.query;
+  const { message } = await PostService.getPostByQuery(query);
+
+  res.status(200).json(message);
+};
+
 const getPostById = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await PostService.getPostById(id);
@@ -51,6 +58,7 @@ module.exports = {
   insertPost,
   getAllPost,
   getPostById,
+  getPostByQuery,
   updatePost,
   deletePost,
 };

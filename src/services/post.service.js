@@ -72,6 +72,17 @@ if (!result) return { type: 'error', message: 'Post does not exist' };
   return { type: null, message: result };
 };
 
+const getPostByQuery = async (text) => {
+  const result = await BlogPost.findAll({
+    include: { all: true, attributes: { exclude: ['password'] } },
+  });
+
+  const title = result.filter((item) => item.title.includes(text));
+  const content = result.filter((item) => item.content.includes(text));
+
+  return { type: null, message: [...title, ...content] };
+};
+
 const updatePost = async ({ userId, postId }, blogUpdate) => {
   const validation = validateItemToUpdate(blogUpdate);
 
@@ -108,6 +119,7 @@ module.exports = {
   insertBlogPost,
   getAllPost,
   getPostById,
+  getPostByQuery,
   updatePost,
   deletePost,
 };
