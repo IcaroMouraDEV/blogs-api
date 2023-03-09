@@ -11,7 +11,7 @@
     "express": "4.17.1",
     "express-async-errors": "3.1.1",
     "joi": "17.6.0",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "1.10.0",
     "mysql2": "2.1.0",
     "sequelize": "6.3.4",
@@ -34,6 +34,7 @@
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
   "devDependencies": {
+    "@types/node": "^18.11.15",
     "change-case": "4.1.2",
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "14.2.0",
